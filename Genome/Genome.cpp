@@ -1,4 +1,5 @@
 #include "Genome.h"
+#include <iomanip>
 
 Genome::Genome()
 {
@@ -104,7 +105,7 @@ bool Genome::LoadFromTextFile(char* fileName)
 							system("cls");
 							currentChromo = chromoIndex;
 							float loadPercent = (float)chromoIndex / (float)(CHROMOSOME_COUNT);
-							cout << loadPercent;
+							cout << "Loading: " << fixed << setprecision(2) << 100 * loadPercent << "%";
 							cout << "\n";
 						}
 					}

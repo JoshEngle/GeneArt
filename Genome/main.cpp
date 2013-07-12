@@ -18,11 +18,11 @@
 #define HELP			"help"
 #define QUIT			"quit"
 
-bool ExecuteCommand(string* commands, int commandCount, Genome* genome)
+bool ExecuteCommand(string* commands, int commandCount, Genome* genome) // Command Line
 {
 	cout << "\n";
 
-	// Lower case.
+	// Convert to Lower case.
 	for(int i = 0; i < commandCount; i++)
 	{
 		std::transform(commands[i].begin(), commands[i].end(), commands[i].begin(), ::tolower);
