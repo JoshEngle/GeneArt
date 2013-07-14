@@ -1,9 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: Genome.cpp
+// Dependencies
+// Description: Handles reading in data from 23andme raw data files and 
+// saving it into data structures
+////////////////////////////////////////////////////////////////////////////////
 #include "Genome.h"
 #include <iomanip>
 
 Genome::Genome()
 {
-	m_chromosomes = new Chromosome[CHROMOSOME_COUNT];
+	m_chromosomes = new Chromosome[CHROMOSOME_COUNT]; //Each array element stores a chromosome
 }
 
 Genome::~Genome()
@@ -20,6 +26,45 @@ void Genome::Shutdown()
 
 	delete[] m_chromosomes;
 	m_chromosomes = 0;
+}
+
+bool Genome::LoadFromBinFile(char* fileName)
+{
+	if(!fileName)
+		return false;
+
+	stringstream streamData;
+
+	streamData << "../Genome/" << fileName << ".bin";
+
+	ifstream file;
+
+	file.open(streamData.str(), ios::in, ios::binary);
+
+	if(!file) return false;
+
+	file.seekg(0, ios::beg);
+
+}
+
+bool Genome::SaveToBinFile(char* fileName)
+{
+	if(!fileName)
+		return false;
+
+	stringstream streamData;
+
+	streamData << "../Genome/" << fileName << ".bin";
+
+	ifstream file;
+
+	file.open(streamData.str(), ios::in, ios::binary);
+
+	if(!file) return false;
+
+	file.seekg(0, ios::beg);
+
+
 }
 
 bool Genome::LoadFromTextFile(char* fileName)
@@ -164,4 +209,6 @@ void Chromosome::PrintSNP(unsigned int x)
 bool IsNumber(const std::string& s)
 {
     return !s.empty() && s.find_first_not_of("0123456789") == std::string::npos;
+
 }
+

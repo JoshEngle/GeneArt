@@ -1,5 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename: Genome.h
+// Dependencies: Genome.cpp
+// Description: Handles reading in data from 23andme raw data files and 
+// saving it into data structures
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef _GENOME_H
 #define _GENOME_H
@@ -49,9 +52,11 @@ private:
 class Genome
 {
 public:
-	Genome();
-	~Genome();
+	Genome(); // Constructor
+	~Genome(); // Deconstructor
 	bool LoadFromTextFile(char* fileName);		// Load from plain text file.
+	bool LoadFromBinFile(char* fileName);
+	bool SaveToBinFile(char * fileName);
 	void Shutdown();							// Free all memory associated with m_chromosomes.
 	void Print(unsigned int x);					// Print the genome of every x snp..
 private:
