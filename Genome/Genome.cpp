@@ -7,6 +7,7 @@
 #include "Genome.h"
 #include <iomanip>
 
+//////////////////////////GENOME CLASS DEFINE///////////////////////////////////
 Genome::Genome()
 {
 	m_chromosomes = new Chromosome[CHROMOSOME_COUNT]; //Each array element stores a chromosome
@@ -17,7 +18,7 @@ Genome::~Genome()
 
 }
 
-void Genome::Shutdown()
+void Genome::Shutdown() // CLEARS DATA FROM MEMORY
 {
 	for(int i = 0; i < CHROMOSOME_COUNT; i++)
 	{
@@ -28,7 +29,7 @@ void Genome::Shutdown()
 	m_chromosomes = 0;
 }
 
-bool Genome::LoadFromBinFile(char* fileName)
+bool Genome::LoadFromBinFile(char* fileName) // LOAD DATA FROM A BIN FILE THATS BEEN SAVED
 {
 	if(!fileName)
 		return false;
@@ -47,8 +48,10 @@ bool Genome::LoadFromBinFile(char* fileName)
 
 }
 
-bool Genome::SaveToBinFile(char* fileName)
-{
+bool Genome::SaveToBinFile(char* fileName) // SAVE MEMORY INFORMATION TO BIN FILE
+{ // The first 22 spots will be reserved to store the size of each of the chromosomes
+	ifstream::pos_type size;
+	char * memblock = new char [size];
 	if(!fileName)
 		return false;
 
@@ -58,16 +61,21 @@ bool Genome::SaveToBinFile(char* fileName)
 
 	ifstream file;
 
-	file.open(streamData.str(), ios::in, ios::binary);
+	file.open(streamData.str(), ios::in|ios::binary|ios::ate);
 
 	if(!file) return false;
 
-	file.seekg(0, ios::beg);
+	for (int i = 0; i < CHROMOSOME_COUNT; i++) // Create index that references the size of each Chromosome.
+	{
+		file.write(
 
+	}
+	file.close();
 
 }
 
-bool Genome::LoadFromTextFile(char* fileName)
+
+bool Genome::LoadFromTextFile(char* fileName) // LOAD DATA IN FROM A 23ANDME RAW DATA TEXT FILE
 {
 	// No file name was passed.
 	if(!fileName)
@@ -167,7 +175,7 @@ bool Genome::LoadFromTextFile(char* fileName)
 	return true;
 }
 
-void Genome::Print(unsigned int x)
+void Genome::Print(unsigned int x) // PRINT ALL GENOME SNP DATA TO THE SCREEN
 {
 	cout << "\n\n";
 	for(int i = 0; i < CHROMOSOME_COUNT; i++)
@@ -177,6 +185,16 @@ void Genome::Print(unsigned int x)
 	}
 }
 
+float Genome::Size() // RETURNS THE NUMBER OF OBJECTS IN THE GENOME
+{
+	float totalSize = 0;
+	for (int i = 0; i < CHROMOSOME_COUNT; i++)
+	{
+		totalSize += m_chromosomes[i].Size();
+	}
+	return totalSize;
+}
+//////////////////////BEGIN CHROMOSOME CLASS DEFINE//////////////////////////
 Chromosome::Chromosome()
 {
 }
@@ -185,17 +203,27 @@ Chromosome::~Chromosome()
 {
 }
 
-void Chromosome::Shutdown()
+void Chromosome::Shutdown() // CLEAR DATA FROM VECTOR
 {
 	m_snp.clear();
 }
 
-void Chromosome::AddSNP(SNP& snp)
+void Chromosome::AddSNP(SNP& snp) // ADD DATA TO VECTOR
 {
 	m_snp.push_back(snp);
 }
 
-void Chromosome::PrintSNP(unsigned int x)
+
+float Chromosome::Size() // RETURNS THE SIZE OF DATA IN A CHROMOSOME
+{
+	for (int i = 0; i < CHROMOSOME_COUNT; i++)
+	{
+		return m_snp.size();
+	}
+
+}
+
+void Chromosome::PrintSNP(unsigned int x) // OUTPUT A SINGLE SNP
 {
 	for(unsigned int i = 0; i < m_snp.size(); i++)
 	{
@@ -206,7 +234,7 @@ void Chromosome::PrintSNP(unsigned int x)
 	}
 }
 
-bool IsNumber(const std::string& s)
+bool IsNumber(const std::string& s) // TESTS TO SEE IF THERE ARE NUMBERS IN A STRING
 {
     return !s.empty() && s.find_first_not_of("0123456789") == std::string::npos;
 

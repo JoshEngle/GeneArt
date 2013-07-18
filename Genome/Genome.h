@@ -45,8 +45,9 @@ public:
 	void AddSNP(SNP&);							// Add to m_snp. Provide snp address.
 	void Shutdown();							// Clear m_snp.
 	void PrintSNP(unsigned int x);				// Print every x entry.
+	float Size();
 private:
-	vector<SNP>	 m_snp;
+	vector<SNP>	 m_snp;							//Store SNP data in a vector
 };
 
 class Genome
@@ -59,8 +60,12 @@ public:
 	bool SaveToBinFile(char * fileName);
 	void Shutdown();							// Free all memory associated with m_chromosomes.
 	void Print(unsigned int x);					// Print the genome of every x snp..
+	float Size();
+	
 private:
 	Chromosome*		m_chromosomes;				// Array of size CHROMOSOME_COUNT.
 };
 
 #endif
+
+// GENOME -> CHROMOSOME -> SNP
